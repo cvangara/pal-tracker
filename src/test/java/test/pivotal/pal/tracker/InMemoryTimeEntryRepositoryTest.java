@@ -18,11 +18,11 @@ public class InMemoryTimeEntryRepositoryTest {
         long projectId = 123L;
         long userId = 456L;
         TimeEntry createdTimeEntry = repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8));
-
+        System.out.println("TimeEntry createdTimeEntry : "+createdTimeEntry.toString());
         long timeEntryId = 1L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
+        System.out.println("TimeEntry expected : "+expected.toString());
         assertThat(createdTimeEntry).isEqualTo(expected);
-
         TimeEntry readEntry = repo.find(createdTimeEntry.getId());
         assertThat(readEntry).isEqualTo(expected);
     }
@@ -33,7 +33,7 @@ public class InMemoryTimeEntryRepositoryTest {
 
         long projectId = 123L;
         long userId = 456L;
-        repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"),8));
 
         long timeEntryId = 1L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
@@ -72,8 +72,10 @@ public class InMemoryTimeEntryRepositoryTest {
         TimeEntry updatedEntry = repo.update(
                 created.getId(),
                 new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
+        System.out.println("TimeEntry updatedEntry :"+updatedEntry);
 
         TimeEntry expected = new TimeEntry(created.getId(), 321L, 654L, LocalDate.parse("2017-01-09"), 5);
+        System.out.println("TimeEntry expected :"+expected);
         assertThat(updatedEntry).isEqualTo(expected);
         assertThat(repo.find(created.getId())).isEqualTo(expected);
     }
@@ -81,7 +83,6 @@ public class InMemoryTimeEntryRepositoryTest {
     @Test
     public void update_MissingEntry() {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
-
         TimeEntry updatedEntry = repo.update(
                 1L,
                 new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
@@ -108,6 +109,7 @@ public class InMemoryTimeEntryRepositoryTest {
         long projectId = 123L;
         long userId = 456L;
         TimeEntry created = repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8));
+        System.out.println("deleteKeepsTrackOfLatestIdProperly() ===> TimeEntry created = "+created);
 
         assertThat(created.getId()).isEqualTo(1);
 
